@@ -3,7 +3,7 @@
 // ==============================
 
 // if true → all boxes open (for testing)
-const TEST_MODE = false;
+const TEST_MODE = true;
 
 //fake server date
 const TEST_DAY = 15;     // Fake "today" day (1–31)
@@ -476,3 +476,4 @@ function positionTopStar(topBox) {
 
 
 init();
+
