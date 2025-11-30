@@ -13,6 +13,9 @@ const TEST_MONTH = 12;   // Fake "today" month (1–12)
 let SERVER_DAY = null;
 let SERVER_MONTH = null;
 
+let TIME_READY = false;
+
+
 const calendarContainer = document.getElementById("calendar-container");
 const confettiCanvas = document.getElementById("confetti-canvas");
 const confettiCtx = confettiCanvas.getContext("2d");
@@ -47,6 +50,7 @@ async function fetchServerTime() {
   if (TEST_MODE) {
     SERVER_DAY = TEST_DAY;
     SERVER_MONTH = TEST_MONTH;
+    TIME_READY = true;
     console.log("TEST MODE ACTIVE → Using fake date:", TEST_DAY, TEST_MONTH);
     return;
   }
@@ -63,6 +67,7 @@ async function fetchServerTime() {
     SERVER_DAY = d.getDate();
     SERVER_MONTH = d.getMonth() + 1;
   }
+  TIME_READY = true;
 }
 
 
@@ -383,6 +388,11 @@ function startSantaFlight() {
 // ==============================
 
 calendarContainer.addEventListener("click", (e) => {
+    if (!TIME_READY) {
+      alert("Egy pillanat... ⏳");
+      return;
+    }
+
   const box = e.target.closest(".box");
   if (!box) return;
 
@@ -476,5 +486,6 @@ function positionTopStar(topBox) {
 
 
 init();
+
 
 
