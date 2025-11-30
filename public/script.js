@@ -42,6 +42,16 @@ for (let i = 1; i <= 24; i++) {
 let stars = [];
 let snowflakes = [];
 
+function showPopup(msg) {
+  document.getElementById("popup-text").textContent = msg;
+  document.getElementById("popup-block").style.display = "flex";
+}
+
+document.getElementById("popup-close").onclick = () => {
+  document.getElementById("popup-block").style.display = "none";
+};
+
+
 // ==============================
 // SERVER TIME
 // ==============================
@@ -409,7 +419,7 @@ calendarContainer.addEventListener("click", (e) => {
 
 
   if (!allowed) {
-    alert("Ha véletlen volt, korán vagy még! Ha direkt akkor EJNYE!");
+    showPopup("Ha véletlen volt, korán vagy még! Ha direkt akkor EJNYE!");
     return;
   }
 
@@ -486,6 +496,7 @@ function positionTopStar(topBox) {
 
 
 init();
+
 
 
 
