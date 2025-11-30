@@ -1,0 +1,333 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #020816;
+}
+
+/* CANVASES */
+
+#stars-canvas,
+#snow-canvas,
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* SNOWY GROUND */
+
+#ground {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 28vh;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.7) 0, transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.7) 0, transparent 55%),
+    linear-gradient(to top, #e9f4ff 0%, #fdfefe 45%, rgba(255, 255, 255, 0) 100%);
+  z-index: 1;
+}
+
+/* REINDEERS */
+
+#reindeers {
+  position: fixed;
+  bottom: calc(28vh - 105px);
+  left: 0;
+  width: 100%;
+  height: 140px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.herd {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+}
+
+.herd.right-to-left {
+  right: -40vw;
+  animation: herdRightToLeft 34s linear forwards;
+}
+
+@keyframes herdRightToLeft {
+  0% { opacity: 0; transform: translateX(0); }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-220vw); }
+}
+
+.reindeer {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.reindeer.left-facing img {
+  transform: scaleX(-1);
+}
+
+.reindeer img {
+  width: 120px;
+  height: auto;
+  display: block;
+  filter: brightness(0);
+  animation: deerBob 1s ease-in-out infinite alternate;
+}
+
+@keyframes deerBob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px) rotate(1deg); }
+}
+
+/* TOP STAR */
+
+#top-star {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  left: 0;
+  top: 0;
+
+  /* Only horizontal centering */
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffd700;
+  font-size: 36px;
+  text-shadow:
+    0 0 8px #fff6b0,
+    0 0 18px #ffd700,
+    0 0 28px #ffd700;
+
+  animation: starPulse 1.5s ease-in-out infinite;
+  z-index: 5;
+}
+
+@keyframes starPulse {
+  0%   { transform: translateX(-50%) scale(1);   opacity: 0.80; }
+  50%  { transform: translateX(-50%) scale(1.25); opacity: 1.0; }
+  100% { transform: translateX(-50%) scale(1);   opacity: 0.80; }
+}
+
+
+
+
+/* SANTA */
+
+#santa {
+  position: fixed;
+  top: 8vh;
+  left: 0;
+  width: 420px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#santa img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 1));
+  animation: santaTilt 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes santaTilt {
+  0% { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
+}
+
+#santa.santa-flying {
+  animation: flySanta 18s linear forwards;
+}
+
+@keyframes flySanta {
+  0% { opacity: 0; transform: translateX(-50vw); }
+  5% { opacity: 1; transform: translateX(-30vw) translateY(-1vh); }
+  35% { transform: translateX(40vw) translateY(1.2vh); }
+  65% { transform: translateX(120vw) translateY(-1.5vh); }
+  90% { opacity: 1; transform: translateX(160vw) translateY(0.5vh); }
+  100% { opacity: 0; transform: translateX(190vw); }
+}
+
+/* CALENDAR */
+
+#calendar-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.box {
+  position: absolute;
+  background: radial-gradient(circle at 30% 20%, #148649, #053020);
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transform-origin: center center;
+}
+
+.box.opened {
+  filter: brightness(0.7);
+  transform: scale(0.98);
+  cursor: default;
+}
+
+.box.opened .box-number {
+  opacity: 0.3;
+}
+
+.box-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.box-ribbon-vertical,
+.box-ribbon-horizontal {
+  position: absolute;
+  background: linear-gradient(to bottom, #fbe9b8, #e4c474, #cfac4f);
+  box-shadow:
+    inset 0 0 2px rgba(255, 255, 255, 0.4),
+    0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.box-ribbon-vertical {
+  width: 22%;
+  left: 39%;
+  top: 0;
+  bottom: 0;
+}
+
+.box-ribbon-horizontal {
+  height: 22%;
+  top: 39%;
+  left: 0;
+  right: 0;
+}
+
+.box-ribbon-knot {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  background: radial-gradient(circle at 30% 20%, #fff3cd, #d6af45);
+  box-shadow:
+    inset 0 0 3px rgba(255, 255, 255, 0.7),
+    0 0 3px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.box-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #000;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+  z-index: 3;
+}
+
+/* BOX OPEN ANIMATION */
+
+.box.opening {
+  animation: boxPop 0.4s ease;
+}
+
+@keyframes boxPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+
+/* MODAL */
+
+#video-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#video-modal.show {
+  display: flex;
+}
+
+#modal-content {
+  position: relative;
+}
+
+#video-player {
+  width: 80vw;
+  max-width: 900px;
+  max-height: 70vh;
+  border-radius: 12px;
+  border: 4px solid #ffffff;
+}
+
+#close-btn {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* MOBILE FIX */
+
+@media (max-width: 600px) {
+  #calendar-container .box {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  #calendar-container .box-number {
+    font-size: 1.2rem !important;
+  }
+
+  #calendar-container {
+    transform: translateY(20px);
+  }
+
+  #ground {
+    height: 30vh !important;
+  }
+
+  #reindeers {
+    bottom: calc(30vh - 105px) !important;
+    height: 90px !important;
+  }
+
+  .reindeer img {
+    width: 70px !important;
+  }
+}
